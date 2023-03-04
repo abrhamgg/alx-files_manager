@@ -20,7 +20,7 @@ export default class UsersController {
       res.status(201);
       console.log('creating user');
       const result = await (await dbClient.addUser(email, sha1(password)));
-      return res.status(201).json({ id: result._id, email: result.email });
+      res.status(201).json({ id: result._id, email: result.email });
     }
   }
 }
