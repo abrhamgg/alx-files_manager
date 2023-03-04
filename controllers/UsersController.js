@@ -19,7 +19,7 @@ export default class UsersController {
     } else {
       console.log('creating user');
       const result = await (await dbClient.addUser(email, sha1(password)));
-      res.send({ _id: `${result._id}`, email: `${result.email}` });
+      res.send({ id: `${result._id}`, email: `${result.email}` });
     }
   }
 }
