@@ -17,9 +17,10 @@ export default class UsersController {
       res.status(400);
       res.send({ error: 'Already exist' });
     } else {
+      res.status(201);
       console.log('creating user');
       const result = await (await dbClient.addUser(email, sha1(password)));
-      res.send({ id: `${result._id}`, email: `${result.email}` });
+      return res.status(201).json({ id: result._id, email: result.email });
     }
   }
 }
