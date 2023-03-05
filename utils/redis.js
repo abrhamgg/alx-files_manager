@@ -25,7 +25,9 @@ class RedisClient {
   }
 
   async del(key) {
+    console.log(await this.get(key));
     await promisify(this.client.DEL).bind(this.client)(key);
+    console.log(await this.get(key));
   }
 }
 export const redisClient = new RedisClient();
