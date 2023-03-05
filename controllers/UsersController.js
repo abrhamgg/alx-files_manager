@@ -45,6 +45,7 @@ export default class UsersController {
     console.log(userId);
     if (!token || !userId) {
       res.status(401).send({ error: 'Unauthorized' });
+      return;
     }
     const user = await dbClient.client.db('files_manager').collection('users').findOne({ _id: new mongodb.ObjectId(userId) });
     res.status(200).json({ id: user._id, email: user.email });
