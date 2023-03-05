@@ -41,6 +41,11 @@ class DBClinet {
     const result = await this.client.db(this.database).collection('users').findOne({ email });
     return result;
   }
+
+  async findAll(userId) {
+    const result = await this.client.db(this.database).collection('users').findOne({ _id: userId });
+    return result;
+  }
 }
 
 const dbClinet = new DBClinet();
