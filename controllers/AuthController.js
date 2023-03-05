@@ -12,14 +12,13 @@ export default class AuthController {
     const email = data[0];
     const password = data[1];
     const user = await dbClinet.findUser(email);
-
-    if (user && sha1(password) === password) {
+    if (!user) {
+      res.status(401).json({ error: 'Unauthorized' });
+    } else if (sha1(password) === user.password) {
       const token = uuidv4();
       const key = `auth_${token}`;
       await redisClient.set(key, user._id.toString(), 24 * 60 * 60);
       res.status(200).json({ token: `${token}` });
-    } else {
-      res.status(401).json({ error: 'Unauthorized' });
     }
   }
 
