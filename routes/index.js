@@ -9,7 +9,7 @@ routes.get('/status', Appcontroller.getStatus);
 routes.get('/stats', Appcontroller.getStats);
 routes.post('/users', UsersController.postNew);
 routes.get('/connect', AuthController.getConnect);
-/*routes.get('/disconnect', AuthController.getDisconnect);
-routes.get('/users/me', UsersController.getMe);*/
+routes.get('/disconnect', AuthController.getDisconnect);
+/*routes.get('/users/me', UsersController.getMe);*/
 
 export default routes;
