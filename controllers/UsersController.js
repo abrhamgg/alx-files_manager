@@ -48,6 +48,6 @@ export default class UsersController {
       return;
     }
     const user = await dbClient.client.db('files_manager').collection('users').findOne({ _id: new mongodb.ObjectId(userId) });
-    res.json({ id: user._id, email: user.email });
+    res.status(200).json({ id: user._id.toString(), email: user.email });
   }
 }
