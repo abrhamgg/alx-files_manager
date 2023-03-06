@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
-import { Request, Response, NextFunction } from 'express';
-import getUserFromXToken from '../utils/auth';
+/*
+import { getUserFromXToken, getUserFromAuth } from '../utils/auth';
 
-const xTokenAuthenticate = async (req, res, next) => {
-  const user = await getUserFromXToken(req);
+export const basicAuthenticate = async (req, res, next) => {
+  const user = await getUserFromAuth(req);
 
   if (!user) {
     res.status(401).json({ error: 'Unauthorized' });
@@ -13,4 +13,14 @@ const xTokenAuthenticate = async (req, res, next) => {
   next();
 };
 
-module.exports = xTokenAuthenticate;
+export const xTokenAuthenticate = async (req, res, next) => {
+  const user = await getUserFromXToken(req);
+
+  if (!user) {
+    res.status(401).json({ error: 'Unauthorized' });
+    return;
+  }
+  req.user = user;
+  next();
+};
+*/

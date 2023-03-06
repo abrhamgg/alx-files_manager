@@ -1,9 +1,8 @@
 /* eslint-disable import/no-named-as-default */
 /* eslint-disable no-unused-vars */
 import sha1 from 'sha1';
+import atob from 'atob';
 import mongodb from 'mongodb';
-import { Request } from 'express';
-import mongoDBCore from 'mongodb/lib/core';
 import dbClient from './db';
 import redisClient from './redis';
 
@@ -21,4 +20,20 @@ const getUserFromXToken = async (req) => {
   return user || null;
 };
 
-module.exports = getUserFromXToken;
+async function getUserFromAuth(req) {
+  const authHeader = req.headers.authorization.split(' ')[1];
+  const data = atob(authHeader).split(':');
+  const email = data[0];
+  const password = data[1];
+  const user = await dbClient.findUser(email);
+  console.log(user);
+  if (!user || sha1(password) !== user.password) {
+    return null;
+  }
+  return user;
+}
+
+export default {
+  getUserFromAuth: async (req) => getUserFromAuth(req),
+  getUserFromXToken: async (req) => getUserFromXToken(req),
+};
