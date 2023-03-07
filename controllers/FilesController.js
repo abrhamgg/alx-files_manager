@@ -25,7 +25,10 @@ export default class FilesController {
     const token = req.headers['x-token'];
     const userId = await redisClient.get(`auth_${token}`);
     const user = await dbClient.client.db('files_manager').collection('users').findOne({ _id: new mongodb.ObjectId(userId) });
-    if (!user) res.status(401).json({ error: 'Unauthorized' });
+    if (!user) {
+      res.status(401).json({ error: 'Unauthorized' });
+      return;
+    }
 
     const name = req.body.name ? req.body.name : null;
     const type = req.body.type ? req.body.type : null;
@@ -39,9 +42,11 @@ export default class FilesController {
     }
     if (!type || !Object.values(VALID_FILE_TYPES).includes(type)) {
       res.status(400).json({ error: 'Missing data' });
+      return;
     }
     if (!req.body.data && type !== VALID_FILE_TYPES.folder) {
       res.status(400).json({ error: 'Missing data' });
+      return;
     }
     if ((parentId !== ROOT_FOLDER) && (parentId !== ROOT_FOLDER.toString())) {
       const file = await dbClient.db('files_manager').collection('files').findOne({
@@ -49,6 +54,7 @@ export default class FilesController {
       });
       if (!file) {
         res.status(400).json({ error: 'Parent not found' });
+        return;
       }
       if (file.type !== VALID_FILE_TYPES.folder) {
         res.status(400).json({ error: 'Parent is not a folder' });
