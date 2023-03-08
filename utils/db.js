@@ -46,6 +46,13 @@ class DBClinet {
     const result = await this.client.db(this.database).collection('users').findOne({ _id: userId });
     return result;
   }
+  async usersCollection() {
+    return this.client.db().collection('users');
+  }
+
+  async filesCollection() {
+    return this.client.db().collection('files');
+  }
 }
 
 const dbClinet = new DBClinet();
